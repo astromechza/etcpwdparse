@@ -1,6 +1,7 @@
 package etcpwdparse
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path"
@@ -75,4 +76,18 @@ func TestFull(t *testing.T) {
 	if hd != "/usr/games" {
 		t.Fatalf("%s != /usr/games", hd)
 	}
+}
+
+func Example() {
+	// load the cache from the /etc/passwd file
+	cache, err := NewLoadedEtcPasswdCache()
+	if err != nil {
+		panic(err)
+	}
+
+	// look up the current user
+	entry, _ := cache.LookupUserByUid(os.Getuid())
+
+	// print some result
+	fmt.Printf("Your current user is %s and your homedir is %s\n", entry.Username(), entry.Homedir())
 }

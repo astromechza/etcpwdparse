@@ -65,7 +65,7 @@ type EtcPasswdCache struct {
 	entries        []EtcPasswdEntry
 	namemap        map[string]*EtcPasswdEntry
 	idmap          map[int]*EtcPasswdEntry
-	IgnoreBadLines bool
+	ignoreBadLines bool
 }
 
 // ParsePasswdLine is a function used to parse a 7 entry /etc/passwd line formatted line
@@ -118,7 +118,7 @@ func (e *EtcPasswdCache) LoadFromPath(path string) error {
 	for _, line := range lines {
 		entry, err := ParsePasswdLine(line)
 		if err != nil {
-			if e.IgnoreBadLines {
+			if e.ignoreBadLines {
 				continue
 			}
 			return err
@@ -131,7 +131,7 @@ func (e *EtcPasswdCache) LoadFromPath(path string) error {
 // NewEtcPasswdCache returns an empty passwd cache.
 func NewEtcPasswdCache(ignoreBadLines bool) *EtcPasswdCache {
 	return &EtcPasswdCache{
-		IgnoreBadLines: ignoreBadLines,
+		ignoreBadLines: ignoreBadLines,
 	}
 }
 
