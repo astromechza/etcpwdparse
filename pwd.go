@@ -116,6 +116,12 @@ func (e *EtcPasswdCache) LoadFromPath(path string) error {
 	e.namemap = make(map[string]*EtcPasswdEntry)
 	e.idmap = make(map[int]*EtcPasswdEntry)
 	for _, line := range lines {
+		line = strings.TrimSpace(line)
+		// skip commented or empty lines
+		if len(line) == 0 || strings.HasPrefix(line, "#") {
+			continue
+		}
+		// parse the current line
 		entry, err := ParsePasswdLine(line)
 		if err != nil {
 			if e.ignoreBadLines {
